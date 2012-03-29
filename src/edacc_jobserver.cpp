@@ -2,7 +2,7 @@
 // Name        : edacc_jobserver.cpp
 // Author      : Simon Gerber
 // Version     : 1.0
-// Copyright   : 
+// Copyright   : Copyright (c) 2011 by Simon Gerber
 // Description : Job Server for the EDACC System
 //============================================================================
 

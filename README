@@ -2,6 +2,7 @@ Job Server 1.0
 ==============
 
 Job Server for EDACC (Experiment Design and Administration for Computer Clusters).
+The Job Server is optional but can improve overall performance of job scheduling.
 See http://sourceforge.net/projects/edacc/ for the EDACC project.
 
 Installation
