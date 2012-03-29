@@ -47,7 +47,21 @@ using namespace std;
 databaselist* databases;
 
 void print_usage(string filename) {
-	cout << "Usage: " << filename << " [-c <configfile>] [-l <logdir>] [-v <verbosity>]" << endl;
+	cout << "Usage: " << filename << " [-c <configfile>] [-l <logdir>] [-v <verbosity>] [-u <user>] [-g <group>]" << endl;
+    // ------------------------------------------------------------------------------------X <-- last char here! (80 chars)
+    cout << "Parameters:" << endl;
+    cout << "  --verbosity=<verbosity>: integer value between 0 and 4 (from lowest to " << endl <<
+    		"                           highest verbosity)" << endl;
+    cout <<	"  --logdir=<log dir>:      use the <log dir> to log files. The Job Server will" << endl <<
+    		"                           create a new log file called jobserver.log on every" << endl <<
+    		"                           start. If jobserver.log exists it will be moved to " << endl <<
+    		"                           jobserver_<number>.log." << endl;
+    cout << "  --config=<config file>:  the configuration file for the Job Server." << endl;
+    cout << "  --user=<user name>:      change to user <user name> on startup. It is" << endl <<
+    		"                           recommended that you change to an unprivileged user" << endl <<
+    		"                           when starting the Job Server as the root user." << endl;
+    cout << "  --group=<group name>:    change to group <group name> on startup." << endl;
+    cout << "  --help:                  prints this help." << endl;
 }
 
 /**

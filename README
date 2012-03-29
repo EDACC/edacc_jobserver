@@ -47,3 +47,12 @@ Command Line Options are:
   --group=<group name>		change to group <group name> on startup
   --help					prints the help
   
+
+Client Setup
+============
+
+In order to let a client connect to the Job Server you have to specify the Job Server in the
+client's configuration by adding those two lines:
+jobserver_host = <host>
+jobserver_port = <port>
+The client will then use the Job Server to retrieve jobs. 

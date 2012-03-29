@@ -1,4 +1,6 @@
 
+export STATIC=0
+
 all:
 	@mkdir -p bin
 	@make -C src

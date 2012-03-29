@@ -1,6 +1,9 @@
 CFLAGS=-ggdb -g -W -Wall -Wextra `mysql_config --cflags` -O2
 LDFLAGS=`mysql_config --libs` -lpthread -lz
 
+ifeq ($(STATIC),1)
+LDFLAGS += -static
+endif
 
 CC = g++
 COMPILE= $(CC) $(CFLAGS) -c
