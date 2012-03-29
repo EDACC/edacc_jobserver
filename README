@@ -1,0 +1,48 @@
+Job Server 1.0
+==============
+
+Job Server for EDACC (Experiment Design and Administration for Computer Clusters).
+See http://sourceforge.net/projects/edacc/ for the EDACC project.
+
+Installation
+============
+
+Compile the Job Server binary by using make. This will create a binary called jobserver
+in the bin directory.
+
+Starting Job Server on startup
+===============================
+
+In contrib/etc/init/edacc_jobserver.conf is an example upstart script given. If your
+Linux Distribution supports upstart, you can use that script to start the Job Server
+automatically.
+
+Create a /var/log/edacc_jobserver/ directory for the log files.
+Create a /etc/edacc directory for the configuration file.
+Copy the configuration file in contrib/etc/edacc/jobserver.conf to /etc/edacc
+Change the configuration file by your needs.
+Copy the jobserver binary to /usr/bin/.
+Copy the upstart script in contrib/etc/init to your upstart init directory (/etc/init).
+Change the username in the upstart init script to an user (unprivileged) that exists.
+
+Use service edacc_jobserver start to start the jobserver.
+
+
+Usage
+=====
+
+The Job Server needs a configuration file. An example for a configuration file is given
+in contrib/etc/edacc/jobserver.conf.
+
+Command Line Options are:
+  --logdir=<log dir>		use the <log dir> to log files. The Job Server will create a new
+  							log file called jobserver.log on every start. If jobserver.log
+  							exists it will be moved to jobserver_<number>.log.
+  --config=<config file>	the configuration file for the Job Server.
+  --verbosity=<number>		the verbosity for logging.
+  --user=<user name>		change to user <user name> on startup. It is recommended that you
+  							change to an unprivileged user when starting the Job Server as
+  							the root user.
+  --group=<group name>		change to group <group name> on startup
+  --help					prints the help
+  

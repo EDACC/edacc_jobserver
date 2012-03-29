@@ -1,0 +1,20 @@
+host = localhost
+port = 3306
+jobserver_port = 3307
+max_connections = 1000
+username = edacc
+password = edaccteam
+database = EDACC
+username = sc12
+password = X!)r40m2
+database = SATChallenge2012
+username = edacc
+password = edaccteam
+database = InstancePropertyTest
+username = edacc
+password = edaccteam
+database = configurator
+username = edacc
+password = edaccteam
+database = ssd
+
