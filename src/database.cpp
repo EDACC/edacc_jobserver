@@ -90,7 +90,7 @@ int database_query_select(string query, MYSQL_RES*& res, MYSQL*& con) {
     return 1;
 }
 
-int get_job_ids(MYSQL* con, int exp_id, vector<set<int> > &job_ids) {
+int get_job_ids(MYSQL* con, int exp_id, vector<vector<job> > &job_ids) {
     char* query = new char[4096];
     snprintf(query, 4096, QUERY_SELECT_JOB_IDS, exp_id);
     MYSQL_RES* result = 0;
@@ -104,16 +104,17 @@ int get_job_ids(MYSQL* con, int exp_id, vector<set<int> > &job_ids) {
     MYSQL_ROW row;
     int priority = -1;
 
-    set<int> jobs;
+    vector<job> jobs;
     while ((row = mysql_fetch_row(result))) {
-    	if (atoi(row[1]) != priority) {
+    	if (atoi(row[2]) != priority) {
     		if (jobs.size() > 0) {
     			job_ids.push_back(jobs);
     		}
     		jobs.clear();
-    		priority = atoi(row[1]);
+    		priority = atoi(row[2]);
     	}
-    	jobs.insert(atoi(row[0]));
+    	job j(atoi(row[0]), atoi(row[1]));
+    	jobs.push_back(j);
     }
     if (jobs.size() > 0) {
     	job_ids.push_back(jobs);

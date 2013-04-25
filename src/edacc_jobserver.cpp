@@ -24,6 +24,7 @@
 #include <getopt.h>
 #include <pwd.h>
 #include <grp.h>
+#include <unistd.h>
 
 #include "databaselist.hpp"
 #include "datastructures.hpp"
@@ -31,7 +32,7 @@
 #include "log.hpp"
 #include "statistics.hpp"
 
-static int jobserver_protocol_version = 2;
+static int jobserver_protocol_version = 3;
 
 void *client_thread(void* _fd);
 void *cleaner_thread(void*);
@@ -361,7 +362,7 @@ void *client_thread(void* _fd) {
 		return NULL;
 	}
 
-	int exp_id, grid_queue_id;
+	int exp_id, grid_queue_id, solver_binary_id;
 	short func_id;
 	pthread_mutex_lock(&client_mutex);
 	client_count++;
@@ -400,14 +401,18 @@ void *client_thread(void* _fd) {
 				break;
 			}
 		} else if (func_id == 1) {
-			if (read(fd, &exp_id, 4) == 4) {
+			log_message(LOG_IMPORTANT, "func_id is 1");
+			if (read(fd, &solver_binary_id, 4) == 4 && read(fd, &exp_id, 4) == 4) {
 				exp_id = ntohl(exp_id);
-				int job_id = htonl(databases->get_random_job(db, exp_id));
+				solver_binary_id = ntohl(solver_binary_id);
+				log_message(LOG_IMPORTANT, "exp_id %d sb_id %d", exp_id, solver_binary_id);
+				int job_id = htonl(databases->get_random_job(db, exp_id, solver_binary_id));
 
 				if (write(fd, &job_id, 4) != 4) {
 					break;
 				}
 			} else {
+				log_error(AT, "Error.");
 				break;
 			}
 		}

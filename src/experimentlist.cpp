@@ -53,13 +53,13 @@ int experimentlist::get_job_count(int exp_id) {
 	return jl->size();
 }
 
-int experimentlist::get_random_job(int exp_id) {
+int experimentlist::get_random_job(int exp_id, int solver_binary_id) {
 	int res = -1;
 	joblist* jl = get_job_list(exp_id);
 	pthread_mutex_lock(&exp_mutex);
 	jl->update_jobs(connection);
 	pthread_mutex_unlock(&exp_mutex);
-	res = jl->get_random_job();
+	res = jl->get_random_job(solver_binary_id);
 	return res;
 }
 

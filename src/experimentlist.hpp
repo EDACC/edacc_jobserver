@@ -24,7 +24,7 @@ private:
 	joblist* get_job_list(int exp_id);
 public:
 	experimentlist(MYSQL* connection);
-	int get_random_job(int exp_id);
+	int get_random_job(int exp_id,int solver_binary_id);
 	time_t get_last_used();
 	void clear_not_used_experiments();
 	bool empty();

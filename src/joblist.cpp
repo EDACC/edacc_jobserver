@@ -28,7 +28,7 @@ void joblist::update_jobs(MYSQL* con) {
 		if (!get_job_ids(con, exp_id, job_ids)) {
 			job_ids.clear();
 		} else {
-			vector<set<int> >::iterator it;
+			vector<vector<job> >::iterator it;
 			for (it = job_ids.begin(); it != job_ids.end(); it++) {
 				_size+= (*it).size();
 			}
@@ -54,21 +54,29 @@ int joblist::size() {
 	return res;
 }
 
-int joblist::get_random_job() {
+int joblist::get_random_job(int solver_binary_id) {
 	int res = 0;
 	pthread_mutex_lock(&jobs_mutex);
 	this->last_used = time(NULL);
 	if (job_ids.empty()) {
 		res = -1;
 	} else {
-		set<int>::iterator it = job_ids[0].begin();
-		//advance(it, rand() % job_ids[0].size());
-		res = *it;
-		//job_ids_blocked.insert(res);
-		job_ids[0].erase(it);
-		_size--;
-		if (job_ids[0].size() == 0) {
-			job_ids.erase(job_ids.begin());
+		vector<job>::iterator job_it = job_ids[0].end();
+		for (vector<job>::iterator it = job_ids[0].begin(); it != job_ids[0].end(); it++) {
+			if (solver_binary_id == -1 || it->solver_binary_id == solver_binary_id) {
+				job_it = it;
+			}
+		}
+		if (job_it != job_ids[0].end()) {
+			res = job_it->job_id;
+			//job_ids_blocked.insert(res);
+			job_ids[0].erase(job_it);
+			_size--;
+			if (job_ids[0].size() == 0) {
+				job_ids.erase(job_ids.begin());
+			}
+		} else {
+			res = -1;
 		}
 	}
 	pthread_mutex_unlock(&jobs_mutex);

@@ -60,13 +60,13 @@ int databaselist::get_possible_exp_ids_for_grid_queue_id(string db, int grid_que
 	return el->get_possible_exp_ids_for_grid_queue_id(grid_queue_id, exp_ids);
 }
 
-int databaselist::get_random_job(string db, int exp_id) {
+int databaselist::get_random_job(string db, int exp_id, int solver_binary_id) {
 	int res = -1;
 	experimentlist* el = get_experiment_list(db);
 	if (el == NULL) {
 		return -1;
 	}
-	res = el->get_random_job(exp_id);
+	res = el->get_random_job(exp_id, solver_binary_id);
 
 	stats.increment_jobs_served();
 	pthread_mutex_lock(&db_mutex);

@@ -11,6 +11,8 @@
 #include <string>
 #include <set>
 #include <vector>
+
+#include "joblist.hpp"
 using namespace std;
 
 MYSQL* database_connect(const string& hostname, const string& database,
@@ -18,8 +20,8 @@ MYSQL* database_connect(const string& hostname, const string& database,
 							unsigned int port);
 
 const char QUERY_SELECT_JOB_IDS[] =
-		"SELECT idJob, priority FROM ExperimentResults WHERE status = -1 AND priority >= 0 AND Experiment_idExperiment = %d ORDER BY priority DESC LIMIT 10000";
-int get_job_ids(MYSQL* con, int exp_id, vector<set<int> > &job_ids);
+		"SELECT idJob, SolverBinaries_idSolverBinary, priority FROM ExperimentResults AS er JOIN SolverConfig AS sc ON (er.SolverConfig_idSolverConfig = sc.idSolverConfig) WHERE status = -1 AND priority >= 0 AND er.Experiment_idExperiment = %d ORDER BY priority DESC LIMIT 10000";
+int get_job_ids(MYSQL* con, int exp_id, vector<vector<job> > &job_ids);
 
 const char QUERY_SELECT_EXPERIMENT_IDS[] =
 		"SELECT Experiment_idExperiment FROM Experiment_has_gridQueue JOIN Experiment ON Experiment_idExperiment = idExperiment WHERE gridQueue_idgridQueue = %d AND active = TRUE";
